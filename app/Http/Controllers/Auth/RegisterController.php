@@ -62,10 +62,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $userid = Controller::GUID();
+        $token = md5(time());
         return User::create([
+            'userid' => $userid,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role_id' => 0,
+            'status' => 1,
+            'token' => $token
         ]);
     }
 }

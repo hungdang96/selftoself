@@ -8,7 +8,6 @@ class ProfilesModel extends Model
 {
     protected $table = 'profile';
     protected $fillable = [
-        'id',
         'avatar',
         'fullname',
         'dob',
@@ -24,6 +23,5 @@ class ProfilesModel extends Model
         'updated_at'
     ];
 
-    protected $guarded = 'id';
     protected $primaryKey = 'id';
 }

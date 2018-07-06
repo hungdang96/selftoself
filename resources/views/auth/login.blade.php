@@ -38,6 +38,13 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="token" class="col-md-4 control-label">Token</label>
+
+                            <div class="col-md-6">
+                                <input id="token" type="text" class="form-control" name="token" required>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
