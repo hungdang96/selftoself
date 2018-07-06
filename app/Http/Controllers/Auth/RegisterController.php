@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\ProfilesController;
 use App\User;
 use App\Http\Controllers\Controller;
+use http\Env\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -48,9 +50,21 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'fullname' => 'required',
+            'dob' => 'required',
+            'sexual' => 'required'
+        ],[
+            'email.required' => 'Vui lòng nhập e-mail',
+            'email.max' => 'Lỗi chiều dài e-mail',
+            'email.unique' => 'E-mail đã được đăng ký!',
+            'password.required' => 'Vui lòng nhập vào mật khẩu',
+            'password.min' => 'Độ dài mật khẩu phải trên 6 ký tự!',
+            'password.confirmed' => 'Mật khẩu xác thực không khớp!',
+            'fullname.required' => 'Họ tên không được để trống!',
+            'dob.required' => 'Vui lòng chọn ngày/tháng/năm sinh!',
+            'sexual.required' => 'Vui lòng chọn giới tính!'
         ]);
     }
 
@@ -64,9 +78,9 @@ class RegisterController extends Controller
     {
         $userid = Controller::GUID();
         $token = md5(time());
+        ProfilesController::profile_create($userid, $data);
         return User::create([
             'userid' => $userid,
-            'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'role_id' => 0,

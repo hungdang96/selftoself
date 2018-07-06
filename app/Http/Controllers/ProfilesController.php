@@ -17,37 +17,11 @@ class ProfilesController extends Controller
     }
 
     //create profile
-    public function profile_create(Request $request){
-        $validator = Validator::make($request->all(),[
-            'fullname' => 'required',
-            'dob' => 'required',
-            'sexual' => 'required',
-            'IDcard' => 'required | unique:profile',
-            'phone' => 'required | unique:profile'
-        ],[
-            'fullname.required' => 'Họ tên không được để trống!',
-            'dob.required' => 'Vui lòng chọn ngày/tháng/năm sinh!',
-            'sexual.required' => 'Vui lòng chọn giới tính!',
-            'IDcard.required' => 'Vui lòng nhập số CMND!',
-            'IDcard.unique' => 'Số CMND bị trùng!',
-            'phone.required' => 'Vui lòng nhập số điện thoại',
-            'phone.unique' => 'Số điện thoại đã tồn tại!'
-        ]);
-        if($validator->fails()){
-            return ['status' => false, 'message' => $validator->errors()->all()];
-        }
-
-        $avatar = $request->avatar;
-        $fullname = $request->fullname;
-        $dob = $request->dob;
-        $sexual = $request->sexual;
-        $userid = $request->userid;
-        $IDcard = $request->IDcard;
-        $phone = $request->phone;
-        $address = $request->address;
-        $provinceid = $request->provinceid;
-        $districtid = $request->districtid;
-        $wardid = $request->wardid;
+    public static function profile_create($userid, array $data){
+        $avatar = $IDcard = $phone  = $address = $provinceid = $districtid = $wardid = '';
+        $fullname = $data['fullname'];
+        $dob = $data['dob'];
+        $sexual = $data['sexual'];
 
         ProfilesModel::create([
             'avatar' => $avatar,
