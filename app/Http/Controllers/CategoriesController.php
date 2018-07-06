@@ -11,11 +11,12 @@ class CategoriesController extends Controller
     //Categories List
     public function categories_list(Request $request){
         $type_id = $request->type_id;
-        $data = CategoriesModel::select('id','category_name','category_parent')
+        $cat_list = CategoriesModel::select('id','category_name','category_parent')
                 ->whereRaw('id <> 0')
                 ->where('type_id', $type_id)
                 ->get();
-        return ['status' => true, 'data' => $data];
+//        return view('content.category.list', compact($cat_list));
+        return ['status' => true, 'data' => $cat_list];
     }
 
     //Category create

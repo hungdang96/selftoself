@@ -30,6 +30,12 @@ Route::group(['prefix' => 'categories'],function (){
    Route::get('delete/{id}', 'CategoriesController@category_delete')->name('deleteCategory');
 });
 
+//Money
+Route::group(['prefix' => 'money'],function (){
+   Route::get('list','MoneyController@finance_list')->name('finance_list');
+   Route::get('add', 'MoneyController@money_create')->name('addMoney');
+});
+
 //News
 Route::group(['prefix' => 'news'],function (){
     Route::get('list','NewsController@news_list')->name('news_list');
@@ -84,7 +90,6 @@ Route::group(['prefix' => 'report'],function (){
     Route::get('paid', 'ReportsController@paid_report')->name('paidReport');
     Route::get('total_info', 'ReportsController@total_info_report')->name('totalReport');
 });
-
 
 Auth::routes();
 
