@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label for="sexual" class="col-md-4 control-label">Sexual:</label>
                                 <div class="col-md-6" style="padding-top: .5em">
-                                    <input type="radio" class="radio-inline" name="sexual" value="Nam" checked>Male
+                                    <input type="radio" class="radio-inline" name="sexual" value="Nam">Male
                                     <input type="radio" class="radio-inline" name="sexual" value="Nữ">Female
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                                     <select name="year" id="year" onchange="getDay()">
                                         <option id="yearTitle" value="">-Year-</option>
                                     </select>
-                                    <input id="dob" type="text" class="form-control" name="dob" hidden>
+                                    <input id="dob" type="text" name="dob" hidden>
                                     @if ($errors->has('dob'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('dob') }}</strong>

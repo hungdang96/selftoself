@@ -68,7 +68,7 @@ Route::group(['prefix' => 'profile'],function (){
     })->name('profile_create');
     Route::post('add', 'ProfilesController@profile_create')->name('addProfile');
     Route::get('edit/{id}', 'ProfilesController@profile_edit')->name('editProfile');
-    Route::post('update/{id}', 'ProfilesController@profile_update')->name('updateProfile');
+    Route::get('update/{id}', 'ProfilesController@profile_update')->name('updateProfile');
     Route::get('delete/{id}', 'ProfilesController@profile_delete')->name('deleteProfile');
 });
 
@@ -89,6 +89,13 @@ Route::group(['prefix' => 'report'],function (){
     Route::get('income', 'ReportsController@income_report')->name('incomeReport');
     Route::get('paid', 'ReportsController@paid_report')->name('paidReport');
     Route::get('total_info', 'ReportsController@total_info_report')->name('totalReport');
+});
+
+//Geography
+Route::group(['prefix' => 'geo'],function (){
+    Route::get('cities', 'GeoController@cities_list')->name('citiesList');
+    Route::get('districts/{city_id}', 'GeoController@districts_list')->name('districtsList');
+    Route::get('wards/{districts_id', 'GeoController@wards_list')->name('wardsList');
 });
 
 Auth::routes();

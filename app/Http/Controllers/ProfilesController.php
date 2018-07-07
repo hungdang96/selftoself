@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ProfilesModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,12 +44,20 @@ class ProfilesController extends Controller
     public function profile_edit($userid){
         $data = ProfilesModel::where('userid', $userid)
                 ->first();
-        return view('content.profile.edit', compact($data));
+        $collection = collect([
+            'date'=>Carbon::parse($data->dob)->format('d'),
+            'month'=>Carbon::parse($data->dob)->format('m'),
+            'year'=>Carbon::parse($data->dob)->format('Y')
+        ]);
+        $dataCollection = collect($data);
+        $data = $dataCollection->merge($collection);
+        $data = json_decode(json_encode($data));
+        return view('content.profile.edit', compact('data',$data));
     }
 
     //Update profile
-    public function profile_update($userid, Request $request){
-        $validator = Validator::make($request->all(),[
+    public function profile_update($userid, array $data){
+        $validator = Validator::make($data->all(),[
             'fullname' => 'required',
             'dob' => 'required',
             'sexual' => 'required',
@@ -67,30 +76,30 @@ class ProfilesController extends Controller
             return ['status' => false, 'message' => $validator->errors()->all()];
         }
 
-        $avatar = $request->avatar;
-        $fullname = $request->fullname;
-        $dob = $request->dob;
-        $sexual = $request->sexual;
-        $userid = $request->userid;
-        $IDcard = $request->IDcard;
-        $phone = $request->phone;
-        $address = $request->address;
-        $provinceid = $request->provinceid;
-        $districtid = $request->districtid;
-        $wardid = $request->wardid;
+        $avatar = $data['avatar'];
+        $fullname = $data['fullname'];
+        $dob = $data['dob'];
+        $sexual = $data['sexual'];
+        $IDcard = $data['IDcard'];
+        $phone = $data['phone'];
+        $address = $data['address'];
+        $provinceid = $data['provinceid'];
+        $districtid = $data['districtid'];
+        $wardid = $data['wardid'];
 
-        ProfilesModel::create([
-            'avatar' => $avatar,
-            'fullname' => $fullname,
-            'dob' => $dob,
-            'sexual' => $sexual,
-            'IDcard' => $IDcard,
-            'phone' => $phone,
-            'address' => $address,
-            'provinceid' => $provinceid,
-            'districtid' => $districtid,
-            'wardid' => $wardid,
-        ]);
+        ProfilesModel::where('userid',$userid)
+            ->update([
+                'avatar' => $avatar,
+                'fullname' => $fullname,
+                'dob' => $dob,
+                'sexual' => $sexual,
+                'IDcard' => $IDcard,
+                'phone' => $phone,
+                'address' => $address,
+                'provinceid' => $provinceid,
+                'districtid' => $districtid,
+                'wardid' => $wardid,
+            ]);
         return ['status' => true, 'message' => 'Success!!!'];
     }
 }
