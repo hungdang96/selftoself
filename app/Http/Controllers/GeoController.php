@@ -11,23 +11,23 @@ class GeoController extends Controller
 {
     //List of cities
     public function cities_list(){
-        $cities = CityModel::select('city_id','name')->get();
-        return ['status' => true, 'cities' => $cities];
+        $cities = CityModel::orderBy('name','ASC')->get();
+        return ['status' => true, 'data' => $cities];
     }
 
     //List of districts
-    public function districts_list($city_id){
+    public function districts_list(Request $request){
         $districts = DistrictModel::select('district_id','name')
-                        ->where('city_id', $city_id)
+                        ->where('city_id', $request->city_id)
                         ->get();
-        return ['status' => true, 'districts' => $districts];
+        return ['status' => true, 'data' => $districts];
     }
 
     //List of wards
-    public function wards_list($district_id){
+    public function wards_list(Request $request){
         $wards = WardModel::select('ward_id','name')
-                ->where('district_id', $district_id)
+                ->where('district_id', $request->district_id)
                 ->get();
-        return ['status' => true, 'wards' => $wards];
+        return ['status' => true, 'data' => $wards];
     }
 }

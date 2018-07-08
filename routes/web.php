@@ -94,8 +94,8 @@ Route::group(['prefix' => 'report'],function (){
 //Geography
 Route::group(['prefix' => 'geo'],function (){
     Route::get('cities', 'GeoController@cities_list')->name('citiesList');
-    Route::get('districts/{city_id}', 'GeoController@districts_list')->name('districtsList');
-    Route::get('wards/{districts_id', 'GeoController@wards_list')->name('wardsList');
+    Route::get('districts', 'GeoController@districts_list')->name('districtsList');
+    Route::get('wards', 'GeoController@wards_list')->name('wardsList');
 });
 
 Auth::routes();

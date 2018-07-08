@@ -42,8 +42,13 @@ class ProfilesController extends Controller
 
     //Edit profile
     public function profile_edit($userid){
-        $data = ProfilesModel::where('userid', $userid)
+        $data = ProfilesModel::select('profile.*','cities.name as city','districts.name as district','wards.name as ward')
+                ->where('userid', $userid)
+                ->leftjoin('cities','city_id','=','profile.provinceid')
+                ->leftjoin('districts','district_id', '=', 'profile.districtid')
+                ->leftjoin('wards','ward_id', '=', 'profile.wardid')
                 ->first();
+        $data = json_decode($data);
         $collection = collect([
             'date'=>Carbon::parse($data->dob)->format('d'),
             'month'=>Carbon::parse($data->dob)->format('m'),
