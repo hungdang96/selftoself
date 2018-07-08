@@ -62,14 +62,14 @@ Route::group(['prefix' => 'posts'],function (){
 
 //Profile user
 Route::group(['prefix' => 'profile'],function (){
-    Route::get('list','ProfilesController@profiles_list')->name('profiles_list');
+    Route::get('profile_detail/{userid}','ProfilesController@profile_detail')->name('profileDetail');
     Route::get('create', function (){
         return view('admin.profiles.create');
     })->name('profile_create');
     Route::post('add', 'ProfilesController@profile_create')->name('addProfile');
-    Route::get('edit/{id}', 'ProfilesController@profile_edit')->name('editProfile');
-    Route::get('update/{id}', 'ProfilesController@profile_update')->name('updateProfile');
-    Route::get('delete/{id}', 'ProfilesController@profile_delete')->name('deleteProfile');
+    Route::get('edit/{userid}', 'ProfilesController@profile_edit')->name('editProfile');
+    Route::post('update/{userid}', 'ProfilesController@profile_update')->name('updateProfile');
+    Route::get('delete/{userid}', 'ProfilesController@profile_delete')->name('deleteProfile');
 });
 
 //Wallet handling

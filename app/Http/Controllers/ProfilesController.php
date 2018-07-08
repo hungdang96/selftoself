@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ProfilesModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProfilesController extends Controller
@@ -48,7 +49,6 @@ class ProfilesController extends Controller
                 ->leftjoin('districts','district_id', '=', 'profile.districtid')
                 ->leftjoin('wards','ward_id', '=', 'profile.wardid')
                 ->first();
-        $data = json_decode($data);
         $collection = collect([
             'date'=>Carbon::parse($data->dob)->format('d'),
             'month'=>Carbon::parse($data->dob)->format('m'),
@@ -61,36 +61,34 @@ class ProfilesController extends Controller
     }
 
     //Update profile
-    public function profile_update($userid, array $data){
-        $validator = Validator::make($data->all(),[
+    public function profile_update($userid, Request $request){
+        $validator = Validator::make($request->all(),[
             'fullname' => 'required',
             'dob' => 'required',
             'sexual' => 'required',
-            'IDcard' => 'required | unique:profile',
-            'phone' => 'required | unique:profile'
+            'IDcard' => 'required',
+            'phone' => 'required'
         ],[
             'fullname.required' => 'Họ tên không được để trống!',
             'dob.required' => 'Vui lòng chọn ngày/tháng/năm sinh!',
             'sexual.required' => 'Vui lòng chọn giới tính!',
             'IDcard.required' => 'Vui lòng nhập số CMND!',
-            'IDcard.unique' => 'Số CMND bị trùng!',
             'phone.required' => 'Vui lòng nhập số điện thoại',
-            'phone.unique' => 'Số điện thoại đã tồn tại!'
         ]);
         if($validator->fails()){
             return ['status' => false, 'message' => $validator->errors()->all()];
         }
 
-        $avatar = $data['avatar'];
-        $fullname = $data['fullname'];
-        $dob = $data['dob'];
-        $sexual = $data['sexual'];
-        $IDcard = $data['IDcard'];
-        $phone = $data['phone'];
-        $address = $data['address'];
-        $provinceid = $data['provinceid'];
-        $districtid = $data['districtid'];
-        $wardid = $data['wardid'];
+        $avatar = $request->avatar;
+        $fullname = $request->fullname;
+        $dob = $request->dob;
+        $sexual = $request->sexual;
+        $IDcard = $request->IDcard;
+        $phone = $request->phone;
+        $address = $request->address;
+        $provinceid = $request->provinceid;
+        $districtid = $request->districtid;
+        $wardid = $request->wardid;
 
         ProfilesModel::where('userid',$userid)
             ->update([

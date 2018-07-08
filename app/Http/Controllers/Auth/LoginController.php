@@ -38,10 +38,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function credentials(Request $request)
-    {
-        $credentials  = $request->only($this->username(),'password');
-        $credentials = array_add($credentials,'token',$request->token);
-        return $credentials;
-    }
+//    protected function credentials(Request $request)
+//    {
+//        $credentials  = $request->only($this->username(),'password');
+//        $credentials = array_add($credentials,'token',$request->token);
+//        return $credentials;
+//    }
 }
