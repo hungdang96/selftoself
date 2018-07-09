@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 
 class GeoController extends Controller
 {
+    public function full_address(Request $request){
+        $cities = CityModel::orderBy('name','ASC')->get();
+        $districts = DistrictModel::select('district_id','name')
+            ->where('city_id', $request->provinceid)
+            ->get();
+        $wards = WardModel::select('ward_id','name')
+            ->where('district_id', $request->districtid)
+            ->get();
+        return ['status' => true, 'province' => $cities, 'district' => $districts, 'ward' => $wards];
+    }
     //List of cities
     public function cities_list(){
         $cities = CityModel::orderBy('name','ASC')->get();

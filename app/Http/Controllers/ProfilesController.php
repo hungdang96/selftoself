@@ -6,16 +6,25 @@ use App\ProfilesModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class ProfilesController extends Controller
 {
     //Show profile details
     public function profile_detail($userid){
-        $profile = ProfilesModel::where('userid', $userid)
-                ->first();
-//        return view('content.profile.show_info',compact($profile));
-        return ['status' => true, 'data' => $profile];
+        $profile = ProfilesModel::select('profile.*','cities.name as province','districts.name as district','wards.name as ward')
+            ->where('userid', $userid)
+            ->leftjoin('cities','city_id','=','profile.provinceid')
+            ->leftjoin('districts','district_id', '=', 'profile.districtid')
+            ->leftjoin('wards','ward_id', '=', 'profile.wardid')
+            ->first();
+        $collection = collect($profile);
+        $date = Carbon::parse($collection['dob'])->format('d/m/Y');
+        $collection['dob'] = $date;
+        $profile = json_decode(json_encode($collection));
+        return view('content.profile.detail',compact('profile',$profile));
+//        return ['status' => true, 'data' => $profile];
     }
 
     //create profile
@@ -103,6 +112,6 @@ class ProfilesController extends Controller
                 'districtid' => $districtid,
                 'wardid' => $wardid,
             ]);
-        return ['status' => true, 'message' => 'Success!!!'];
+        return Redirect::route('profileDetail',['userid'=>$userid])->with(true,'Cập nhật thành công!');
     }
 }

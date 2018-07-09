@@ -109,6 +109,7 @@
                     Đăng ký
                 </button>
             </div>
+            {{Form::close()}}
         </div>
     </div>
 @endsection

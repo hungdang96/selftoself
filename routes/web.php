@@ -62,7 +62,7 @@ Route::group(['prefix' => 'posts'],function (){
 
 //Profile user
 Route::group(['prefix' => 'profile'],function (){
-    Route::get('profile_detail/{userid}','ProfilesController@profile_detail')->name('profileDetail');
+    Route::get('detail/{userid}','ProfilesController@profile_detail')->name('profileDetail');
     Route::get('create', function (){
         return view('admin.profiles.create');
     })->name('profile_create');
@@ -93,6 +93,7 @@ Route::group(['prefix' => 'report'],function (){
 
 //Geography
 Route::group(['prefix' => 'geo'],function (){
+    Route::get('full_address', 'GeoController@full_address')->name('full_address');
     Route::get('cities', 'GeoController@cities_list')->name('citiesList');
     Route::get('districts', 'GeoController@districts_list')->name('districtsList');
     Route::get('wards', 'GeoController@wards_list')->name('wardsList');

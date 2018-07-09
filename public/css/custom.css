@@ -2,9 +2,18 @@
     width: 7em !important;
     margin-right: 2em;
 }
+.btn-a-custom {
+    width: 5em !important;
+    margin-right: 2em;
+}
+
+
+.btn-hover:hover{
+    color: #b6c1c6 !important;
+}
 
 .avatar {
-    width: 50% !important;
+    width: 30% !important;
     margin-bottom: .5em;
 }
 
@@ -12,8 +21,13 @@
     padding: 6px 10px !important;
 }
 
+#year{
+    width: 60% !important;
+}
+
 .title {
-    font-size: 84px;
+    margin-top: 10rem;
+    font-size: 100px;
 }
 
 .sub-title {
