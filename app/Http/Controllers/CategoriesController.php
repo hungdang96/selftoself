@@ -16,7 +16,7 @@ class CategoriesController extends Controller
                 ->where('type_id', $type_id)
                 ->get();
 //        return view('content.category.list', compact($cat_list));
-        return ['status' => true, 'data' => $cat_list];
+        return ['status' => 'sucees', 'data' => $cat_list];
     }
 
     //Category create
@@ -41,7 +41,7 @@ class CategoriesController extends Controller
             'category_parent' => $category_parent,
             'type_id' => $type_id
         ]);
-        return ['status' => true, 'message' => 'Tạo danh mục thành công!'];
+        return ['status' => 'sucees', 'message' => 'Tạo danh mục thành công!'];
     }
 
     //Category edit
@@ -73,7 +73,7 @@ class CategoriesController extends Controller
                 'category_parent' => $category_parent,
                 'type_id' => $type_id
             ]);
-        return ['status' => true, 'message' => 'Cập nhật danh mục thành công!'];
+        return ['status' => 'sucees', 'message' => 'Cập nhật danh mục thành công!'];
     }
 
     //Category delete
@@ -81,7 +81,7 @@ class CategoriesController extends Controller
         $data = CategoriesModel::find($category_id);
         if(isset($data)){
             $data->delete();
-            return ['status' => true, 'message' => "Đã xóa danh mục '".$data->category_name."'"];
+            return ['status' => 'sucees', 'message' => "Đã xóa danh mục '".$data->category_name."'"];
         }
         else{
             return ['status' => false, 'message' => ['Danh mục không tồn tại!']];

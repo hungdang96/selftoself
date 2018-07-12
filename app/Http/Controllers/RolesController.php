@@ -11,7 +11,7 @@ class RolesController extends Controller
     //Role list
     public function roles_list(){
         $data = RolesModel::all();
-        return ['status' => true, 'data' => $data];
+        return ['status' => 'sucees', 'data' => $data];
 //        return view('admin.roles.list', compact($data));
     }
 
@@ -31,6 +31,6 @@ class RolesController extends Controller
             'role_name' => $role_name
         ]);
 
-        return ['status' => true, 'message' => 'Tạo role thành công!'];
+        return ['status' => 'sucees', 'message' => 'Tạo role thành công!'];
     }
 }

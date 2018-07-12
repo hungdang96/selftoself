@@ -12,19 +12,23 @@ use Illuminate\Support\Facades\Validator;
 class ProfilesController extends Controller
 {
     //Show profile details
-    public function profile_detail($userid){
-        $profile = ProfilesModel::select('profile.*','cities.name as province','districts.name as district','wards.name as ward')
+    public function profile_detail($userid, $webView){
+        $profileDetail = ProfilesModel::select('profile.*','cities.name as province','districts.name as district','wards.name as ward')
             ->where('userid', $userid)
             ->leftjoin('cities','city_id','=','profile.provinceid')
             ->leftjoin('districts','district_id', '=', 'profile.districtid')
             ->leftjoin('wards','ward_id', '=', 'profile.wardid')
             ->first();
-        $collection = collect($profile);
+        $collection = collect($profileDetail);
         $date = Carbon::parse($collection['dob'])->format('d/m/Y');
         $collection['dob'] = $date;
-        $profile = json_decode(json_encode($collection));
-        return view('content.profile.detail',compact('profile',$profile));
-//        return ['status' => true, 'data' => $profile];
+        $profileDetail = json_decode(json_encode($collection));
+        if($webView == 1){
+            return view('content.profile.detail',compact('profileDetail',$profileDetail));
+        }
+        else{
+            return ['status' => 'sucees', 'profileDetail' => $profileDetail];
+        }
     }
 
     //create profile
@@ -47,7 +51,7 @@ class ProfilesController extends Controller
             'districtid' => $districtid,
             'wardid' => $wardid,
         ]);
-        return ['status' => true, 'message' => 'Success!!!'];
+        return ['status' => 'sucees', 'message' => 'Success!!!'];
     }
 
     //Edit profile

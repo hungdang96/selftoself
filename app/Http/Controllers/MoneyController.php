@@ -24,7 +24,7 @@ class MoneyController extends Controller
         $financeList = MoneyModel::select('reason','money','created_at','updated_at')
                         ->where($where)->get();
 //        return view('content.finance.list',compact($financeList));
-        return ['status' => true, 'data' => $financeList];
+        return ['status' => 'sucees', 'data' => $financeList];
     }
 
     //Add money
@@ -59,6 +59,6 @@ class MoneyController extends Controller
         ]);
         $wallet_id = $request->wallet_id;
         WalletsController::handle_money_wallet($wallet_id, $request);
-        return ['status' => true, 'message' => 'Xử lý thành công!'];
+        return ['status' => 'sucees', 'message' => 'Xử lý thành công!'];
     }
 }

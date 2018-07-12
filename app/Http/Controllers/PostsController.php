@@ -17,8 +17,8 @@ class PostsController extends Controller
         }
         $posts_list = PostsModel::where($where)
                 ->get();
-        return ['status' => true, 'data' => $posts_list];
-//        return view('content.posts.postsList', compact($posts_list));
+//        return ['status' => 'sucees', 'data' => $posts_list];
+        return view('content.post.list', compact('posts_list'));
     }
 
     //Post create
@@ -54,7 +54,7 @@ class PostsController extends Controller
             'categories_id' => $categories_id
         ]);
 
-        return ['status' => true, 'message' => 'Tạo bài viết thành công!'];
+        return ['status' => 'sucees', 'message' => 'Tạo bài viết thành công!'];
     }
 
     //Post edit
@@ -96,7 +96,7 @@ class PostsController extends Controller
                 'categories_id' => $categories_id
             ]);
 
-        return ['status' => true, 'message' => 'Cập nhật bài viết thành công!'];
+        return ['status' => 'sucees', 'message' => 'Cập nhật bài viết thành công!'];
     }
 
     //Post delete
@@ -104,7 +104,7 @@ class PostsController extends Controller
         $data = PostsModel::find($id);
         if(isset($data)){
             $data->delete();
-            return ['status' => true, 'message' => 'Xóa bài viết thành công!'];
+            return ['status' => 'sucees', 'message' => 'Xóa bài viết thành công!'];
         }
         else{
             return ['status' => false, 'message' => ['Bài viết không tồn tại!']];

@@ -13,14 +13,19 @@
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+    {{--<link href="{{ asset('css/regular.css') }}" rel="stylesheet">--}}
+    {{--<link href="{{ asset('css/fontawesome.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/all.js')}}"></script>
+    <script src="{{asset('js/sweetalert2.js')}}"></script>
+    {{--<script src="{{asset('js/regular.js')}}"></script>--}}
+    {{--<script src="{{asset('js/fontawesome.js')}}"></script>--}}
 </head>
 <body>
     <div id="app">
@@ -29,5 +34,6 @@
         @yield('content')
     </div>
     @yield('script')
+    @include('inc.message')
 </body>
 </html>

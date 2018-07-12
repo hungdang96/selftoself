@@ -14,8 +14,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/',function (){
+    return view('contentWelcome');
 })->name('welcome');
 
 //Category
@@ -50,7 +50,7 @@ Route::group(['prefix' => 'news'],function (){
 
 //Posts
 Route::group(['prefix' => 'posts'],function (){
-    Route::get('list','PostsController@posts_list')->name('posts_list');
+    Route::get('list','PostsController@posts_list')->name('postsList');
     Route::get('create', function (){
         return view('admin.posts.create');
     })->name('posts_create');
@@ -62,7 +62,7 @@ Route::group(['prefix' => 'posts'],function (){
 
 //Profile user
 Route::group(['prefix' => 'profile'],function (){
-    Route::get('detail/{userid}','ProfilesController@profile_detail')->name('profileDetail');
+    Route::get('detail/{userid}/{webView}','ProfilesController@profile_detail')->name('profileDetail');
     Route::get('create', function (){
         return view('admin.profiles.create');
     })->name('profile_create');
@@ -74,22 +74,23 @@ Route::group(['prefix' => 'profile'],function (){
 
 //Wallet handling
 Route::group(['prefix' => 'wallet'],function (){
-    Route::get('list','WalletsController@wallets_list')->name('wallets_list');
+    Route::get('list/{userid}','WalletsController@wallet_list')->name('listWallets');
+    Route::get('detail/{wallet_id}','WalletsController@wallet_detail')->name('detailWallet');
     Route::get('create', function (){
-        return view('admin.wallets.create');
-    })->name('wallet_create');
+        return view('content.wallet.create');
+    })->name('createWallet');
     Route::post('add', 'WalletsController@wallet_create')->name('addWallet');
-    Route::get('edit/{id}', 'WalletsController@wallet_edit')->name('editWallet');
-    Route::post('update/{id}', 'WalletsController@wallet_update')->name('updateWallet');
-    Route::get('delete/{id}', 'WalletsController@wallet_delete')->name('deleteWallet');
+    Route::get('edit/{userid}', 'WalletsController@wallet_edit')->name('editWallet');
+    Route::post('update/{userid}', 'WalletsController@wallet_update')->name('updateWallet');
+    Route::get('delete/{userid}', 'WalletsController@wallet_delete')->name('deleteWallet');
 });
 
-//Report
-Route::group(['prefix' => 'report'],function (){
-    Route::get('income', 'ReportsController@income_report')->name('incomeReport');
-    Route::get('paid', 'ReportsController@paid_report')->name('paidReport');
-    Route::get('total_info', 'ReportsController@total_info_report')->name('totalReport');
-});
+////Report
+//Route::group(['prefix' => 'report'],function (){
+//    Route::get('income', 'ReportsController@income_report')->name('incomeReport');
+//    Route::get('paid', 'ReportsController@paid_report')->name('paidReport');
+//    Route::get('total_info', 'ReportsController@total_info_report')->name('totalReport');
+//});
 
 //Geography
 Route::group(['prefix' => 'geo'],function (){
@@ -97,6 +98,11 @@ Route::group(['prefix' => 'geo'],function (){
     Route::get('cities', 'GeoController@cities_list')->name('citiesList');
     Route::get('districts', 'GeoController@districts_list')->name('districtsList');
     Route::get('wards', 'GeoController@wards_list')->name('wardsList');
+});
+
+Route::group(['prefix' => 'walletType'], function (){
+    Route::get('list/{webview}','WalletTypeController@wallet_type_list')->name('listWalletType');
+    Route::get('update/{id}', 'WalletTypeController@wallet_type_update')->name('updateWalletType');
 });
 
 Auth::routes();

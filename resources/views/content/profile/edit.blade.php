@@ -6,7 +6,7 @@
             <span class="m-2 ml-3 text-muted"><i class="fa fa-edit"></i> Cập nhật thông tin</span>
         </div>
         <div class="row p-3">
-            {{ Form::open(['route' => ['updateProfile',$data->userid],'method' => 'post','class' => "w-100"]) }}
+            {!! Form::open(['route' => ['updateProfile',$data->userid],'method' => 'post','class' => "w-100"]) !!}
             {{ csrf_field() }}
             <div class="form-group row">
                 <label for="avatar" class="col-md-3 col-form-label text-right">Ảnh đại diện:</label>
@@ -107,7 +107,7 @@
             </div>
             <div class="form-group text-center">
                 {!! Form::submit('Cập nhật',['class'=>'btn btn-primary btn-custom']); !!}
-                <a href="{{route('profileDetail',['userid'=>$data->userid])}}"
+                <a href="{{route('profileDetail',['userid'=>$data->userid,'webView'=>'1'])}}"
                    class="btn btn-warning btn-custom">Quay lại</a>
             </div>
             {!! Form::close() !!}

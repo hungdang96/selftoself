@@ -17,12 +17,12 @@ class GeoController extends Controller
         $wards = WardModel::select('ward_id','name')
             ->where('district_id', $request->districtid)
             ->get();
-        return ['status' => true, 'province' => $cities, 'district' => $districts, 'ward' => $wards];
+        return ['status' => 'sucees', 'province' => $cities, 'district' => $districts, 'ward' => $wards];
     }
     //List of cities
     public function cities_list(){
         $cities = CityModel::orderBy('name','ASC')->get();
-        return ['status' => true, 'data' => $cities];
+        return ['status' => 'sucees', 'data' => $cities];
     }
 
     //List of districts
@@ -30,7 +30,7 @@ class GeoController extends Controller
         $districts = DistrictModel::select('district_id','name')
                         ->where('city_id', $request->city_id)
                         ->get();
-        return ['status' => true, 'data' => $districts];
+        return ['status' => 'sucees', 'data' => $districts];
     }
 
     //List of wards
@@ -38,6 +38,6 @@ class GeoController extends Controller
         $wards = WardModel::select('ward_id','name')
                 ->where('district_id', $request->district_id)
                 ->get();
-        return ['status' => true, 'data' => $wards];
+        return ['status' => 'sucees', 'data' => $wards];
     }
 }

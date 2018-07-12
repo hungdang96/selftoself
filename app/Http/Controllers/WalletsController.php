@@ -3,26 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\WalletsModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class WalletsController extends Controller
 {
     //List wallets
     public function wallet_list($userid){
-        $wallets = WalletsModel::select('wallet_id','name','money','created_at')
+        $data = WalletsModel::select(DB::raw('wallet_id,name,money,wallet_type.wallet_type_name as wallet_type, status, DATE_FORMAT(created_at,"%d-%m-%Y") as date_created'))
                     ->where('userid', $userid)
-                    ->where('status', 1)
+                    ->leftjoin('wallet_type','id','=','wallets.wallet_type')
+                    ->where('status','>', 0)
                     ->get();
-//        return view('content.wallet.list',compact($wallets));
-        return ['status' => true, 'data' => $wallets];
+        return view('content.wallet.list',compact('data'));
+//        return ['status' => 'success', 'data' => $data];
     }
 
     //Wallet detail
     public function wallet_detail($wallet_id){
-        $walletDetail = WalletsModel::find($wallet_id);
-//        return view('content.wallet.detail', compact($walletDetail));
-        return ['status' => true, 'data' => $walletDetail];
+        $data = WalletsModel::find($wallet_id);
+//        return view('content.wallet.detail', compact('data'));
+        return ['status' => 'sucees', 'data' => $data];
     }
 
     //Create wallet
@@ -43,10 +47,18 @@ class WalletsController extends Controller
         $wallet_id = Controller::GUID();
         $name = $request->name;
         $userid = $request->userid;
-        $money = $request->money;
-        $lowest_level = $request->lowest_level;
+        $money = (int)$request->money;
+        $lowest_level = (int)$request->lowest_level;
         $wallet_type = $request->wallet_type;
-        $status = 1;
+        if($money > $lowest_level){
+            $status = 1;
+        }
+        elseif ($money == $lowest_level){
+            $status = 2;
+        }
+        else{
+            $status = 3;
+        }
 
         WalletsModel::create([
            'wallet_id' => $wallet_id,
@@ -57,7 +69,7 @@ class WalletsController extends Controller
            'wallet_type' => $wallet_type,
            'status' => $status
         ]);
-        return ['status' => true, 'message' => 'Tạo ví thành công!'];
+        return Redirect::route('createWallet')->with('success','Tạo ví thành công!');
     }
 
     //Add money to wallet
@@ -77,7 +89,7 @@ class WalletsController extends Controller
             ->update([
                 'money' => $total_money
             ]);
-        return ['status' => true, 'message' => 'Đã cập nhật số tiền trong ví!'];
+        return ['status' => 'sucees', 'message' => 'Đã cập nhật số tiền trong ví!'];
     }
 
     //Edit wallet
@@ -116,7 +128,7 @@ class WalletsController extends Controller
             'wallet_type' => $wallet_type,
             'status' => $status
         ]);
-        return ['status' => true, 'message' => 'Cập nhật ví thành công!'];
+        return ['status' => 'sucees', 'message' => 'Cập nhật ví thành công!'];
     }
 
     public function wallet_delete($wallet_id){
@@ -125,7 +137,7 @@ class WalletsController extends Controller
             $data->update([
                 'status' => 0
             ]);
-            return ['status' => true, 'message' => 'Đã xóa ví '.$data->name];
+            return ['status' => 'sucees', 'message' => 'Đã xóa ví '.$data->name];
         }
         else{
             return ['status' => false, 'message' => 'Không tìm thấy ví '.$data->name];

@@ -30,6 +30,15 @@
     font-size: 100px;
 }
 
+.elem-radius{
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+}
+
+.title-welcome {
+    font-size: 80px;
+}
+
 .sub-title {
     font-size: 40px;
 }
@@ -74,4 +83,13 @@
 .container-radius{
     border-top-left-radius: .5em;
     border-top-right-radius: .5em;
+}
+
+.wallet-name{
+    color: #292d37 !important;
+}
+
+.wallet-name:hover{
+    color: #94a092 !important;
+    text-decoration: none !important;
 }

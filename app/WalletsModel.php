@@ -21,4 +21,5 @@ class WalletsModel extends Model
 
     protected $guarded = 'wallet_id';
     protected $primaryKey = 'wallet_id';
+    public $incrementing = false;
 }
